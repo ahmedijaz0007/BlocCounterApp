@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
   @override
-  dispose() {
+  void dispose() {
     routes.dispose();
   }
+
 }

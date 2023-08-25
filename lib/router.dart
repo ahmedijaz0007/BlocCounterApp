@@ -35,7 +35,7 @@ class AppRoute{
 
   @override
   dispose(){
-
+   _counterCubit.close();
   }
 
 }
