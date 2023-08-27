@@ -17,13 +17,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<InternetCubit, InternetState>(
-  listener: (context, state) {
+    listener: (context, state) {
     if (state is InternetConnected && state.connectionType == ConnectionType.wifi){
-      BlocProvider.of<CounterCubit>(context).increment();
+      context.read<CounterCubit>().increment();
     }
 
-   else if (state is InternetConnected && state.connectionType == ConnectionType.mobile){
-      BlocProvider.of<CounterCubit>(context).decrement();
+    else if (state is InternetConnected && state.connectionType == ConnectionType.mobile){
+      context.read<CounterCubit>().decrement();
     }
   },
   child: Scaffold(
@@ -52,42 +52,66 @@ class _MyHomePageState extends State<MyHomePage> {
               const Text(
                 'You have pushed the button this many times:',
               ),
-              BlocBuilder<InternetCubit, InternetState>(
-                builder: (context, state) {
-                  var dis = "";
-                  if (state is InternetConnected && state.connectionType == ConnectionType.wifi){
-                    dis = "WIFI";
-                  }
-                 else if (state is InternetConnected && state.connectionType == ConnectionType.mobile){
-                    dis = "Mobile";
-                  }
-                 else if (state is InternetDisconnected){
-                   dis = "Disconnected";
-                  }
-                  return Text(
-                    dis,
-                    style: Theme.of(context).textTheme.headlineLarge                  );
-                },
-              ),
-              BlocBuilder<CounterCubit, CounterState>(
-                builder: (context, state) {
-                  return Text(
-                    state.counterValue.toString(),
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  );
-                },
-              ),
+              // BlocBuilder<InternetCubit, InternetState>(
+              //   builder: (context, state) {
+              //     var dis = "";
+              //     if (state is InternetConnected && state.connectionType == ConnectionType.wifi){
+              //       dis = "WIFI";
+              //     }
+              //    else if (state is InternetConnected && state.connectionType == ConnectionType.mobile){
+              //       dis = "Mobile";
+              //     }
+              //    else if (state is InternetDisconnected){
+              //      dis = "Disconnected";
+              //     }
+              //     return Text(
+              //       dis,
+              //       style: Theme.of(context).textTheme.headlineLarge                  );
+              //   },
+              // ),
+              Builder(builder: (context){
+                    var dis = "";
+                    var internet = context.watch<InternetCubit>();
+                    var state = internet.state;
+                    if (state is InternetConnected && state.connectionType == ConnectionType.wifi){
+                      dis = "WIFI";
+                    }
+                   else if (state is InternetConnected && state.connectionType == ConnectionType.mobile){
+                      dis = "Mobile";
+                    }
+                   else if (state is InternetDisconnected){
+                     dis = "Disconnected";
+                    }
+                    return Text(
+                      dis,
+                      style: Theme.of(context).textTheme.headlineLarge);
+              }),
+              // BlocBuilder<CounterCubit, CounterState>(
+              //   builder: (context, state) {
+              //     return Text(
+              //       state.counterValue.toString(),
+              //       style: Theme.of(context).textTheme.headlineMedium,
+              //     );
+              //   },
+              // ),
+              Builder(builder: (context){
+                var counter = context.watch<CounterCubit>();
+                return  Text(
+                  counter.state.counterValue.toString(),
+                           style: Theme.of(context).textTheme.headlineMedium,
+                        );
+              }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FloatingActionButton(
                     heroTag: null,
-                    onPressed: BlocProvider.of<CounterCubit>(context).increment,
+                    onPressed: context.read<CounterCubit>().increment,
                     tooltip: 'Increment',
                     child: const Icon(Icons.exposure_plus_1),
                   ),
                   FloatingActionButton(
-                    heroTag: null,                    onPressed: BlocProvider.of<CounterCubit>(context).decrement,
+                    heroTag: null,                    onPressed: context.read<CounterCubit>().decrement,
                     tooltip: 'Decrement',
                     child: const Icon(Icons.exposure_minus_1),
                   ),
