@@ -52,11 +52,13 @@ class _MyHomePageState extends State<HomePage2> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FloatingActionButton(
+                    heroTag: null,
                     onPressed:BlocProvider.of<CounterCubit>(context).increment,
                     tooltip: 'Increment',
                     child: const Icon(Icons.exposure_plus_1),
                   ),
                   FloatingActionButton(
+                    heroTag: null,
                     onPressed: BlocProvider.of<CounterCubit>(context).decrement,
                     tooltip: 'Decrement',
                     child: const Icon(Icons.exposure_minus_1),

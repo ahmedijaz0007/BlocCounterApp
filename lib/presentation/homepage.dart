@@ -1,3 +1,4 @@
+import 'package:blocpractice/logic/internetcubit/internetcubit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,6 +42,23 @@ class _MyHomePageState extends State<MyHomePage> {
               const Text(
                 'You have pushed the button this many times:',
               ),
+              BlocBuilder<InternetCubit, InternetState>(
+                builder: (context, state) {
+                  var dis = "";
+                  if (state is InternetConnected && state.connectionType == ConnectionType.wifi){
+                    dis = "WIFI";
+                  }
+                 else if (state is InternetConnected && state.connectionType == ConnectionType.mobile){
+                    dis = "Mobile";
+                  }
+                 else if (state is InternetDisconnected){
+                   dis = "Disconnected";
+                  }
+                  return Text(
+                    dis,
+                    style: Theme.of(context).textTheme.headlineLarge                  );
+                },
+              ),
               BlocBuilder<CounterCubit, CounterState>(
                 builder: (context, state) {
                   return Text(
@@ -53,12 +71,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FloatingActionButton(
+                    heroTag: null,
                     onPressed: BlocProvider.of<CounterCubit>(context).increment,
                     tooltip: 'Increment',
                     child: const Icon(Icons.exposure_plus_1),
                   ),
                   FloatingActionButton(
-                    onPressed: BlocProvider.of<CounterCubit>(context).decrement,
+                    heroTag: null,                    onPressed: BlocProvider.of<CounterCubit>(context).decrement,
                     tooltip: 'Decrement',
                     child: const Icon(Icons.exposure_minus_1),
                   ),

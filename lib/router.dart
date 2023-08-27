@@ -7,24 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRoute{
-   final CounterCubit _counterCubit = CounterCubit();
   Route? onGenerateRoute(RouteSettings routeSettings){
     switch(routeSettings.name){
 
       case "/":
         return MaterialPageRoute(builder: (_){
-          return BlocProvider.value(value: _counterCubit,
-          child: const MyHomePage(title: "HOME"));
+          return const MyHomePage(title: "HOME");
         });
       case "2ndHome":
         return MaterialPageRoute(builder: (_){
-          return BlocProvider.value(value: _counterCubit,
-          child: const HomePage2(title: "2ndHome"));
+          return const HomePage2(title: "2ndHome");
         });
       case "3rdHome":
         return MaterialPageRoute(builder: (_){
-          return BlocProvider.value(value: _counterCubit,
-          child: const Homepage3(title: "3rdHome"));
+          return const Homepage3(title: "3rdHome");
         });
        default:
          return null;
@@ -35,7 +31,6 @@ class AppRoute{
 
   @override
   dispose(){
-   _counterCubit.close();
   }
 
 }
