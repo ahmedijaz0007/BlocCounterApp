@@ -1,4 +1,5 @@
 import 'package:blocpractice/logic/internetcubit/internetcubit_cubit.dart';
+import 'package:blocpractice/logic/settingscubit/settingscubit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -135,6 +136,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
 
+              BlocProvider(
+                create: (context)=> SettingsCubit(),
+                child: BlocBuilder<SettingsCubit,SettingsState>(
+                  builder: (context,state) {
+                    return Column(
+                      children: [
+                        SwitchListTile(
+                          title: const Text('App Notifications'),
+                          value: state.appNotifications,
+                          onChanged:(bool? value) {
+                            context.read<SettingsCubit>().onToggleAppNotifications(value ?? false);
+                          },
+                        ),
+                        SwitchListTile(
+                          title: const Text('Email Notifications'),
+                          value: state.emailNotifications,
+                          onChanged:(bool? value) {
+                            context.read<SettingsCubit>().onToggleEmailNotifications(value ?? false);
+                          },
+                        ),
+
+                      ],
+                    );
+                  }
+                ),
+              )
             ],
           ),
         ),
