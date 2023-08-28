@@ -3,16 +3,22 @@ import 'package:blocpractice/router.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'logic/countercubit/countercubit_cubit.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage =  await HydratedStorage.build(storageDirectory: await getApplicationDocumentsDirectory() );
+
   runApp(MyApp(connectivity: Connectivity(),appRoute: AppRoute(),));
 }
 
 class MyApp extends StatelessWidget {
-  AppRoute appRoute;
-  Connectivity connectivity;
+
+  final AppRoute appRoute;
+  final Connectivity connectivity;
 
   MyApp({super.key,required this.connectivity,required this.appRoute});
   // This widget is the root of your application.
